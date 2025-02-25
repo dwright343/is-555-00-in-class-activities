@@ -5,8 +5,18 @@ df2 <- read_csv('https://www.dropbox.com/s/xfp1qzxvo19ym0x/df_2.csv?dl=1')
 df3 <- read_csv('https://www.dropbox.com/s/uzusr9723ffn546/df_3.csv?dl=1')
 df4 <- read_csv('https://www.dropbox.com/s/js8tehtsk7btpeq/df_4.csv?dl=1')
 
+df1
+df2
+df3
+df4
 # A few sample calculations:
 df1 %>% summarize(across(everything(), list(mean = ~mean(.x), 
+                                            sd = ~sd(.x))))
+df2 %>% summarize(across(everything(), list(mean = ~mean(.x), 
+                                            sd = ~sd(.x))))
+df3 %>% summarize(across(everything(), list(mean = ~mean(.x), 
+                                            sd = ~sd(.x))))
+df4 %>% summarize(across(everything(), list(mean = ~mean(.x), 
                                             sd = ~sd(.x))))
 
 # correlation matrix:
@@ -18,3 +28,8 @@ df1 %>% cor()
 # y ~ x --> uses R's formula expression syntax to say "y regressed on x"
 # %>% coefficients() --> this just extracts the coefficients from the resulting model
 lm(y ~ x, data = df1) %>% coefficients()
+
+combined <- bind_rows(df1, df2, df3, df4, .id = 'dataset') %>% 
+  ggplot(aes(x = x, y = y, color = dataset)) +
+  geom_point()
+combined

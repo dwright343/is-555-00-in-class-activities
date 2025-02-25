@@ -165,15 +165,27 @@ ri %>%
 
 
 
-
-
 # which objects occur most frequently?
+bob %>% select(episode:title)
 
-
+bob %>% 
+  pivot_longer(apple_frame:wood_framed,
+               names_to = 'object',
+               values_to = 'is_included')
+  group_by(object) %>% 
+    summarize(count_appearances = sum(is_included)) %>% 
+    arrange(desc(count_appearances))
 
 # What was the season when Bob painted the most mountains?
 
-
+bob %>% pivot_longer(apple_frame:wood_framed,
+                     names_to = 'object',
+                     values_to = 'is_included') %>% 
+  filter(str_detect(object, 'mountain')) %>% 
+  filter(is_included == 1) %>% 
+  group_by(season) %>% 
+  summarize(count = n()) %>% 
+  arrange(desc(count))
 
 #  How do the episodes compare in terms of the variety of objects included?
 
@@ -181,8 +193,14 @@ ri %>%
 # Has the variety of objects changed over the 30 seasons?
 
 
-# Create a table that displays one line per attribute with a count of times that 
+# Create a table that displays one line per object with a count of times that 
 # object was used in each season (one column per season)
+bob %>% 
+  pivot_longer(apple_frame:wood_framed,
+               names_to = 'object',
+               values_to = 'is_included') %>% 
+  pivot_wider(names_from = season,
+              values_from = )
 
 
 
@@ -192,8 +210,6 @@ ri %>%
 
 
 
-
-a
 
 
 
